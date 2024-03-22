@@ -5,17 +5,35 @@ const AnyComponent = () => {
     const [inputValue, setInputValue] = useState('');
     const [username, setUsername] = useState('');
 
-    useEffect(() => {
-        
-    }, []);
+    const fetchTodoList = () => {
+        console.log(' fetch todo list for user')
+        fetch(`https://playground.4geeks.com/apis/fake/todos/user/${username}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json'
+                }
+        }).then(response => {
+            if(response.ok) {
+                return response.json()
+            }
+            throw Error(response.status + "! Something went wrong")
+        }).then((todoData) => {
+            console.log(toDoData);
+        }).catch(err => {
+            console.log('Error', err)
+        })
+      
+    }
 
     const addUser = () => {
         if(inputValue.trim() !== '');
         fetch(`'https://playground.4geeks.com/apis/fake/todos/user/${username}'`,{
-            method: 'POST' ,
-            headers: {
-                "Content-Type": "application/json"
-              }
+            method: 'POST',
+            mode: 'cors',
+            redirect: 'follow',
+            headers: new Headers({
+            'Content-Type': 'text/plain'
+            })
         }
        
         ).then(response => {
@@ -39,10 +57,14 @@ const AnyComponent = () => {
         setUsername('');
     }
 
+    const deleteUser = () => {
+        console.log('Delete username')
+    }
+
     const addTask = () => {
         if (inputValue.trim() !== '') 
         fetch(`'https://playground.4geeks.com/apis/fake/todos/user/${username}'`,{
-            method: 'GET' ,
+            method: 'POST' ,
             headers: {
                 "Content-Type": "application/json"
               }
@@ -115,9 +137,16 @@ const AnyComponent = () => {
                 type="text"
                 value={username}
                 onChange={e => setUsername(e.target.value)}
-                placeholder="Enter your name/username"
-                onKeyPress={handleKeyEnter}
+                placeholder="Enter your Username"
+              
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter' ) {
+                        console.log(' Fetch Todo List')
+                        fetchTodoList()
+                    }
+                }}
                 />
+                <button onClick={deleteUser}>Delete User</button>
             </div>
             <nav className="navbar navbar-light bg-light">
                 <input
