@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 
 const AnyComponent = () => {
   const [username, setUsername] = useState("");
-
   const [tasks, setTasks] = useState([]);
   const [newTaskName, setNewTaskName] = useState("");
 
@@ -31,10 +30,10 @@ const AnyComponent = () => {
   };
 
   const addUser = async (event) => {
-    //prevenir o browser de fazer refresh dps de clickares no botao
+    //prevent browser from refreshing
     event.preventDefault();
 
-    //if useername field is not empty the code runs
+    //if username field is not empty the code runs
     if (username.trim() !== "") {
       //api call to create user/todo list
       const response = await fetch(
@@ -61,6 +60,8 @@ const AnyComponent = () => {
     }
   };
 
+
+    // Function to delete the user and data from api
   const deleteUser = () => {
     fetch(`https://playground.4geeks.com/apis/fake/todos/user/${username}`, {
       method: "DELETE",
@@ -85,6 +86,8 @@ const AnyComponent = () => {
       });
   };
 
+
+    // Function to add tasks to the todolist
   const addTask = () => {
     const updatedTasks = [...tasks, { done: false, label: newTaskName }];
 
